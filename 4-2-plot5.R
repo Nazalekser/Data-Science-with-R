@@ -23,8 +23,8 @@
 # in the United states over the 10-year period 1999–2008. You may use any R 
 # package you want to support your analysis.
 
-# 4. Across the United States, how have emissions from coal combustion-related 
-# sources changed from 1999–2008?
+# 5. How have emissions from motor vehicle sources changed from 1999–2008 
+# in Baltimore City?
 
 filename <- "exdata_data_NEI_data.zip"
 
@@ -42,19 +42,19 @@ SCC <- readRDS("Source_Classification_Code.rds")
 
 library(dplyr)
 
-# Get coal consumption pattern
-coal_pattern <- grep('Coal', SCC$Short.Name, ignore.case = TRUE)
-coal_tab <- SCC[coal_pattern,]
+# Get vehicle pattern
+vehicle_pattern <- grep('Vehicle', SCC$SCC.Level.Two, ignore.case = TRUE)
+vehicle_tab <- SCC[vehicle_pattern,]
 
-# Get coal consumption related emissions
-pm <- filter(NEI, SCC==coal_tab$SCC) %>% group_by(year) %>% 
-    summarise(Coal_Combustion_Emissions = sum(Emissions, na.rm = TRUE))
+# Get vehicle related emissions
+pm <- filter(NEI, fips == "24510" & SCC %in% vehicle_tab$SCC) %>%
+    group_by(year) %>%
+    summarise(Baltimore_Vehicle_Emissions = sum(Emissions, na.rm = TRUE))
+with(pm, plot(year, Baltimore_Vehicle_Emissions, pch = 20))
 
-with(pm, plot(year, Coal_Combustion_Emissions, pch = 20))
-
-# Create plot file
-
-# png(filename = 'plot4.png')
+# # Create plot file
+# 
+# png(filename = 'plot5.png')
 # Sys.setlocale("LC_TIME", "English")
-# with(pm, plot(year, Coal_Combustion_Emissions, pch = 20))
+# with(pm, plot(year, Baltimore_Vehicle_Emissions, pch = 20))
 # dev.off()
