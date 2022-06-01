@@ -15,6 +15,15 @@ if (!file.exists(filename)){
 data <- read.csv(filename)
 ```
 
+### Library loading
+```{r dplyr}
+library(dplyr)
+```
+### Data overview
+```{r DataOverview, cache=TRUE}
+print(str(data))
+```
+
 ### Selecting and preprocessing variables
 Select variables for analysis and convert alphabetical characters used to signify magnitude (“K” for thousands, “M” for millions, and “B” for billions) to a numeric ones.
 ```{r processing, cache=TRUE}
@@ -22,12 +31,6 @@ DataDamage <- select(data, EVTYPE, FATALITIES, INJURIES, PROPDMG, PROPDMGEXP, CR
 DataDamage$PROPDMGEXP <- as.numeric(factor(DataDamage$PROPDMGEXP, levels = c('K', 'M', 'B'), labels = c(1, 2, 3)))
 DataDamage$CROPDMGEXP <- as.numeric(factor(DataDamage$CROPDMGEXP, levels = c('K', 'M', 'B'), labels = c(1, 2, 3)))
 ```
-
-### Library loading
-```{r dplyr}
-library(dplyr)
-```
-
 ## 2.Results
 ### Fatality and injurity events
 Group the dataset by type of event (EVTYPE) and find the sums of fatalities and injuries for every event, then find the event with maximum numbers of fatalities and injuries
@@ -55,8 +58,8 @@ mtext('Health Damage', outer = TRUE)
 
 We see that some other types of events also have significant numbers of occurrences. So we choose events whose number of fatalities is at least 5% of the number of occurrences of `r MaxFatalEvent` and number of injuries is at least 5% of the number of occurrences of `r MaxInjuryEvent`
 ```{r table_HealthDamage}
-print(select(HealthDamage, EVTYPE, Fatalities) %>% filter(Fatalities > 0.05 * NumFataEvent))
-print(select(HealthDamage, EVTYPE, Injuries) %>% filter(Injuries > 0.05 * NumInjuryaEvent))
+print(select(HealthDamage, EVTYPE, Fatalities) %>% filter(Fatalities > 0.05 * NumFataEvent) %>% arrange(desc(Fatalities)))
+print(select(HealthDamage, EVTYPE, Injuries) %>% filter(Injuries > 0.05 * NumInjuryaEvent) %>% arrange(desc(Injuries)))
 ```
 
 ### Property and crop damage events
@@ -84,6 +87,6 @@ mtext('Economic Damage', outer = TRUE)
 
 We see that some other types of events also have significant economic damages. So we choose events whose property damages are at least 5% of the damage of `r MaxPropDmgEvent` and crop damages are at least 5% of the of the damage of `r MaxCropDmgEvent`
 ```{r table_EconomicDamage}
-print(select(EconomicDamage, EVTYPE, PropDmg) %>% filter(PropDmg > 0.05 * PropDmgEvent))
-print(select(EconomicDamage, EVTYPE, CropDmg) %>% filter(CropDmg > 0.05 * CropDmgEvent))
+print(select(EconomicDamage, EVTYPE, PropDmg) %>% filter(PropDmg > 0.05 * PropDmgEvent) %>% arrange(desc(PropDmg)))
+print(select(EconomicDamage, EVTYPE, CropDmg) %>% filter(CropDmg > 0.05 * CropDmgEvent) %>% arrange(desc(CropDmg)))
 ```
