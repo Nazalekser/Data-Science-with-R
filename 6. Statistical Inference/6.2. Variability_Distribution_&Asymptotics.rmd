@@ -1,0 +1,111 @@
+## Statistical Inference - Quiz 2
+
+### Question 1
+
+What is the variance of the distribution of the average an IID draw of n observations from a population with mean $μ$ and variance $σ^2$?
+
+-   $\frac{σ^2}{n}$
+-   $σ^2$
+-   $2\frac{σ}{\sqrt{n}}$
+-   $\frac{σ}{n}$
+
+Answer : $\frac{σ^2}{n}$
+
+### Question 2
+
+Suppose that diastolic blood pressures (DBPs) from men aged 35-44 are normally distributed with a mean of 80mmHg and a standard deviation of 10 mmHg. About what is the probability that a random 35-44 year old has a DBP less than 70?
+
+-   22%
+-   32%
+-   8%
+-   16%
+
+```{r q2}
+pnorm(70,mean=80,sd=10,lower.tail = TRUE)
+```
+
+Answer : The searched probability is around 16%.
+
+### Question 3
+
+Brain volume for adult women is normally distributed with a mean of about 1,100 cc for women with a standard deviation of 75 cc. What brain volume represents the 95th percentile?
+
+-   approximately 1247
+-   approximately 1223
+-   approximately 1175
+-   approximately 977
+
+```{r q3}
+qnorm(0.95,mean=1100,sd=75,lower.tail = TRUE)
+```
+
+Answer : The 95th quantile for this distribution is approximately 1223.
+
+### Question 4
+
+Refer to the previous question. Brain volume for adult women is normally distributed with a mean of about 1,100 cc for women with a standard deviation of 75 cc. Consider the sample mean of 100 random adult women from this population. What is th 95th percentile of the distribution of the sample mean?
+
+-   approximately 1112
+-   approximately 1088
+-   approximately 1110
+-   approximately 1115
+
+```{r q4}
+qnorm(0.95,mean=1100,sd=75/10,lower.tail = TRUE)
+```
+
+Answer : The 95th quantile for this distribution mean is approximately 1112.
+
+### Question 5
+
+You flip a fair coin 5 times. About what is the probability of getting 4 or 5 heads?
+
+-   6%
+-   19%
+-   3%
+-   12%
+
+As the coin is fair, the probability of getting 1 head at each flip is 0.5. The probability of getting at least 4 heads after 5 flips can be computed using the binomial law : $p=C_4^5(0.5)^4(1−0.5)+C_5^5(0.5)^5$
+
+```{r q5}
+pbinom(3, size=5, prob=0.5, lower.tail = FALSE)
+```
+
+Answer : The probability is approximately 19%.
+
+### Question 6
+
+The respiratory disturbance index (RDI), a measure of sleep disturbance, for a specific population has a mean of 15 (sleep events per hour) and a standard deviation of 10. They are not normally distributed. Give your best estimate of the probability that a sample mean RDI of 100 people is between 14 and 16 events per hour.
+
+-   68%
+-   95%
+-   34%
+-   47.5%
+
+Answer : The standard error of the mean is $\frac{σ}{\sqrt{n}}$ , where $σ=10$ and $n=100$. So the standard error is 1. The probability of the RDI being inside 1 standard deviation around the mean is 68%.
+
+### Question 7
+
+Consider a standard uniform density. The mean for this density is 0.5 and the variance is 1/12. You sample 1000 observations from this distribution and take the sample mean, what value would you expect it to be near?
+
+-   0.75
+-   0.25
+-   0.10
+-   0.5
+
+Answer : Using the LLN, the value should be approximately 0.5.
+
+### Question 8
+
+The number of people showing up at a bus stop is assumed to be Poisson with a mean of 5 people per hour. You watch the bus stop for 3 hours. About what's the probability of viewing 10 of fewer people?
+
+-   0.08
+-   0.12
+-   0.03
+-   0.06
+
+```{r q8}
+ppois(10, lambda=15)
+```
+
+Answer : The probability is approximately 12%.
